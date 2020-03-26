@@ -1,5 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams
+} from "react-router-dom";
+
+import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -28,22 +36,21 @@ export default props => {
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
-                    image={`${props.character.thumbnail.path}.${props.character.thumbnail.extension}`}
+                    image={`${props.comic.thumbnail.path}.${props.comic.thumbnail.extension}`}
                     title="Contemplative Reptile"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="h4">
-                        {props.character.title}
+                        {props.comic.title}
                     </Typography>
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small"  variant="contained" color="primary">
-                    Saiba <AddIcon />
-                </Button>
-                <Button size="small" variant="contained" color="primary">
-                    <ShoppingCart /> Carrinho
-                </Button>
+                <Link to={`product-detail/${props.comic.id}`}>
+                    <Button tosize="lg" variant="contained" color="primary">
+                        <ShoppingCart/> Carrinho
+                    </Button>
+                </Link>
             </CardActions>
         </Card>
     );
