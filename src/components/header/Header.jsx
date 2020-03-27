@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect} from 'react';
+import {Link, Redirect, Route, BrowserRouter as Router} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {fade, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,6 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -63,13 +66,37 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default  props => {
+export default props => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const [isRedirect, setIsRedirect] = useState(false);
+    const [totalComics, setTotalComics] = useState(0)
+    const comics = useSelector(state => state.cart);
+
+    useEffect(() => {
+            setTotalComics(comics.length);
+    }, [comics]);
+
+    const redirect = () => {
+        debugger;
+        if (totalComics > 0 && isRedirect)
+            return (
+                <Router>
+                    <Route>
+                        <Redirect
+                            to={{
+                                pathname: "/cart"
+                            }}
+                        />
+                    </Route>
+                </Router>
+            )
+    };
 
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
@@ -92,10 +119,10 @@ export default  props => {
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
             id={menuId}
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
@@ -108,17 +135,17 @@ export default  props => {
     const renderMobileMenu = (
         <Menu
             anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
             id={mobileMenuId}
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
+                        <MailIcon/>
                     </Badge>
                 </IconButton>
                 <p>Messages</p>
@@ -126,7 +153,7 @@ export default  props => {
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
                     <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
+                        <NotificationsIcon/>
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
@@ -138,62 +165,73 @@ export default  props => {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <AccountCircle />
+                    <AccountCircle/>
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
         </Menu>
     );
 
-    return (
-        <div className={classes.grow}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Universo Marvel
-                    </Typography>
+  return (
+        <React.Fragment>
+            {redirect()}
+            <div className={classes.grow}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="open drawer"
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            Universo Marvel
+                        </Typography>
 
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 8 new mails" color="inherit">
-                            <Badge badgeContent={8} color="secondary">
-                                <ShoppingCart />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
-        </div>
+                        <div className={classes.grow}/>
+                        <div className={classes.sectionDesktop}>
+
+                            <Button
+                                onClick={() => setIsRedirect(totalComics > 0 ? true : false)}
+                                aria-label="show 8 new mails"
+                                color="inherit">
+                                <Badge badgeContent={totalComics} color="secondary">
+
+                                    <ShoppingCart/>
+
+                                </Badge>
+                            </Button>
+
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <AccountCircle/>
+                            </IconButton>
+                        </div>
+                        <div className={classes.sectionMobile}>
+                            <IconButton
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon/>
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+                {renderMobileMenu}
+                {renderMenu}
+            </div>
+        </React.Fragment>
+
     );
 }

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useParams
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,9 +9,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import AddIcon from '@material-ui/icons/Add';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import {useDispatch} from "react-redux";
+
+import addToCart from '../../store/actions-reducers';
 
 const useStyles = makeStyles({
     root: {
@@ -30,27 +25,37 @@ const useStyles = makeStyles({
 
 export default props => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
+    const addCart = (comic) => {
+        dispatch(addToCart(comic))
+    }
 
     return (
         <Card className={classes.root}>
-            <CardActionArea>
-                <CardMedia
-                    className={classes.media}
-                    image={`${props.comic.thumbnail.path}.${props.comic.thumbnail.extension}`}
-                    title="Contemplative Reptile"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h6" component="h4">
-                        {props.comic.title}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
+            <Link to={`product-detail/${props.comic.id}`}>
+                <CardActionArea>
+                    <CardMedia
+                        className={classes.media}
+                        image={`${props.comic.thumbnail.path}.${props.comic.thumbnail.extension}`}
+                        title="Contemplative Reptile"
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h6" component="h4">
+                            {props.comic.title}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Link>
             <CardActions>
-                <Link to={`product-detail/${props.comic.id}`}>
-                    <Button tosize="lg" variant="contained" color="primary">
-                        <ShoppingCart/> Carrinho
-                    </Button>
-                </Link>
+                <Button
+                    tosize="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => addCart(props.comic)}
+                >
+                    <ShoppingCart/> Carrinho
+                </Button>
             </CardActions>
         </Card>
     );
