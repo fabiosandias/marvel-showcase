@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import {useDispatch} from "react-redux";
 import * as _actions from '../../store/actions-reducers';
+import useAddComicStoryToCart from '../../hooks/useAddComicStoryToCart';
 import './card.css';
 
 const useStyles = makeStyles({
@@ -25,11 +26,7 @@ const useStyles = makeStyles({
 
 export default props => {
     const classes = useStyles();
-    const dispatch = useDispatch();
-
-    const addCart = (comic) => {
-        dispatch(_actions.addToCartAction(comic))
-    }
+    const  { checkOnCart } =  useAddComicStoryToCart();
 
     return (
         <>
@@ -53,7 +50,7 @@ export default props => {
                         tosize="small"
                         variant="contained"
                         color="primary"
-                        onClick={() => addCart(props.comic)}
+                        onClick={() => checkOnCart(props.comic)}
                     >
                         <ShoppingCart/> Carrinho
                     </Button>

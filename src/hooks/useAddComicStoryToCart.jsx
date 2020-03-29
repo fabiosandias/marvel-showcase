@@ -5,24 +5,24 @@ import { addToCartAction } from "../store/actions-reducers";
 const useAddComicStoryToCart = (comic) => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
-    const [verify, setVerify] = useState(false);
-    const [history, setHistory] = useState(comic);
-    debugger;
-    useEffect(() => {
 
+
+    const checkOnCart = comic => {
+        debugger;
         if (cart.length === 0) {
-            dispatch(addToCartAction(history));
-            setVerify(true)
+            dispatch(addToCartAction(comic));
+            return true
         } else {
-            const historyAlreadyCart = cart.filter(ct => ct.id = comic.id)
+            const historyAlreadyCart = cart.filter(ct => ct.id === comic.id)
             if (historyAlreadyCart.length === 0) {
-                dispatch(addToCartAction(history));
-                setVerify(true)
-            } else setVerify(false);
+                dispatch(addToCartAction(comic));
+                return true
+            }
+            return false;
         }
-    }, [history]);
+    };
 
-    return verify;
+    return { checkOnCart };
 }
 
 export default useAddComicStoryToCart;

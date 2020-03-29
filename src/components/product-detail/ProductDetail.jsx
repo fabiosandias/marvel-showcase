@@ -37,14 +37,7 @@ export default props => {
     const [comic, setComic] = useState([]);
 
     const searchResult = useSelector(state => state.searchResult)
-    const add = useAddComicStoryToCart([]);
-
-    const addToCart = (comic) => {
-        if (useAddComicStoryToCart(comic)) {
-            alert("Foi adicionado ao carrinho!")
-        } else
-            alert("Esse produto ja existe no carrinho!")
-    }
+    const { checkOnCart } = useAddComicStoryToCart();
 
     useEffect(() => {
         setIsLoading(true);
@@ -63,7 +56,7 @@ export default props => {
                 ? <Grid container spacing={0}>
                     <Grid item xs={12}>
                         {comic.map(c =>
-                            <div className="product-detail">
+                            <div className="product-detail" key={c.id}>
                                 <div className="product-detail__image">
                                     <img className="product-detail__image--img"
                                          src={`${c.thumbnail.path}.${c.thumbnail.extension}`} alt=""/>
@@ -75,7 +68,7 @@ export default props => {
                                         size="medium"
                                         color="primary"
                                         className={classes.margin}
-                                        onClick={() => useAddComicStoryToCart(c)}
+                                        onClick={() => checkOnCart(c)}
                                     >
                                         Adicionar ao carrinho de compras
                                     </Button>
