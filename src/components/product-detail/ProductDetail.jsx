@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {useParams} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
+import Button from '@material-ui/core/Button';
 import {getAllComicsById, getAllComics} from '../../services/ApiService';
 import Progress from "../progress/Progress";
+import useAddComicStoryToCart from '../../hooks/useAddComicStoryToCart'
 
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 import './Product-detail.css';
 import Fade from "@material-ui/core/Fade";
@@ -21,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    margin: {
+        margin: theme.spacing(1),
+    },
+    extendedIcon: {
+        marginRight: theme.spacing(1),
+    },
 }));
 
 export default props => {
@@ -29,6 +37,14 @@ export default props => {
     const [comic, setComic] = useState([]);
 
     const searchResult = useSelector(state => state.searchResult)
+    const add = useAddComicStoryToCart([]);
+
+    const addToCart = (comic) => {
+        if (useAddComicStoryToCart(comic)) {
+            alert("Foi adicionado ao carrinho!")
+        } else
+            alert("Esse produto ja existe no carrinho!")
+    }
 
     useEffect(() => {
         setIsLoading(true);
@@ -54,6 +70,15 @@ export default props => {
                                 </div>
                                 <div className="product-detail__description">
                                     <h2>{c.title}</h2>
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        color="primary"
+                                        className={classes.margin}
+                                        onClick={() => useAddComicStoryToCart(c)}
+                                    >
+                                        Adicionar ao carrinho de compras
+                                    </Button>
                                 </div>
                             </div>
                         )}
