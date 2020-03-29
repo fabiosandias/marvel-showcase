@@ -15,7 +15,7 @@ export default props =>  {
         <BrowserRouter history={customHistory}>
             <Switch>
                 <Route exact path="/" component={Showcase} />
-                <Route exact path="/product-detail/:id" component={ProductDetail} />
+                <Route exact path="/product-detail/:comicId" component={ProductDetail} />
                 <Route exact path="/cart" component={Cart} />
             </Switch>
         </BrowserRouter>

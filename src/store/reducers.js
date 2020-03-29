@@ -1,7 +1,12 @@
-import { createStore } from "redux";
+import {createStore} from "redux";
 
 const INITIAL_STATE = {
-    cart: []
+    cart: [],
+    searchResult: [],
+    showModalDetail: {
+        isShow: false,
+        comic: {}
+    }
 };
 
 function reducers(state, {type, payload}) {
@@ -11,6 +16,21 @@ function reducers(state, {type, payload}) {
                 ...state,
                 cart: [...state.cart, payload]
             };
+        case 'SAVE_SEARCH_RESULT':
+            return {
+                ...state,
+                searchResult: payload
+            }
+        case  'SHOW_MODAL_DETAIL':
+            const {isShow, comic} = payload;
+            debugger
+            return {
+                ...state,
+                showModalDetail: {
+                    isShow: {...state.showModalDetail.isShow, isShow},
+                    comic: {...state.showModalDetail.comic, comic}
+                }
+            }
         default:
             return state;
     }

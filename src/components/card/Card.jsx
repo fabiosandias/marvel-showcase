@@ -11,8 +11,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import {useDispatch} from "react-redux";
-
-import addToCart from '../../store/actions-reducers';
+import * as _actions from '../../store/actions-reducers';
+import './card.css';
 
 const useStyles = makeStyles({
     root: {
@@ -28,35 +28,37 @@ export default props => {
     const dispatch = useDispatch();
 
     const addCart = (comic) => {
-        dispatch(addToCart(comic))
+        dispatch(_actions.addToCartAction(comic))
     }
 
     return (
-        <Card className={classes.root}>
-            <Link to={`product-detail/${props.comic.id}`}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={`${props.comic.thumbnail.path}.${props.comic.thumbnail.extension}`}
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h6" component="h4">
-                            {props.comic.title}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Link>
-            <CardActions>
-                <Button
-                    tosize="small"
-                    variant="contained"
-                    color="primary"
-                    onClick={() => addCart(props.comic)}
-                >
-                    <ShoppingCart/> Carrinho
-                </Button>
-            </CardActions>
-        </Card>
+        <>
+            <Card className={classes.root}>
+                <Link to={`/product-detail/${props.comic.id}`} className="card__link">
+                    <CardActionArea>
+                        <CardMedia
+                            className={classes.media}
+                            image={`${props.comic.thumbnail.path}.${props.comic.thumbnail.extension}`}
+                            title="Contemplative Reptile"
+                        />
+                        <CardContent >
+                            <Typography gutterBottom variant="h6" component="h4">
+                                {`${props.comic.title.substring(0, 14)}...`}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Link>
+                <CardActions>
+                    <Button
+                        tosize="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => addCart(props.comic)}
+                    >
+                        <ShoppingCart/> Carrinho
+                    </Button>
+                </CardActions>
+            </Card>
+        </>
     );
 }

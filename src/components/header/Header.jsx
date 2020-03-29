@@ -83,15 +83,12 @@ export default props => {
     }, [comics]);
 
     const redirect = () => {
-        debugger;
         if (totalComics > 0 && isRedirect)
             return (
                 <Router>
                     <Route>
                         <Redirect
-                            to={{
-                                pathname: "/cart"
-                            }}
+                            to="/cart"
                         />
                     </Route>
                 </Router>

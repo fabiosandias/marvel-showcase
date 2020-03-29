@@ -13,8 +13,8 @@ function App() {
             <Container maxWidth="md">
                 <Header/>
             </Container>
-            <Container maxWidth="md">
-                <Typography component="div" style={{backgroundColor: '#fff'}}>
+            <Container maxWidth="md" className="container-showcase">
+                <Typography component="div" style={{backgroundColor: '#fafafa'}}>
                     <RouterComponent/>
                 </Typography>
             </Container>
