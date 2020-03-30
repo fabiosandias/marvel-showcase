@@ -35,17 +35,22 @@ export default props => {
     const {comicId} = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [comic, setComic] = useState([]);
+    const [title, setTitle] = useState('Loja Virtual da Marvel');
 
     const searchResult = useSelector(state => state.searchResult)
-    const { checkOnCart } = useAddComicStoryToCart();
+    const {checkOnCart} = useAddComicStoryToCart();
 
     useEffect(() => {
         setIsLoading(true);
+
         getAllComicsById(comicId)
             .then(response => {
                 setIsLoading(false);
                 setComic(response.data.results);
+                setTitle(response.data.results.title);
+
             });
+
     }, [comicId]);
 
     const classes = useStyles();
@@ -54,7 +59,7 @@ export default props => {
         <>
             {!isLoading && comic
                 ? <Grid container spacing={0}>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={12}>
                         {comic.map(c =>
                             <div className="product-detail" key={c.id}>
                                 <div className="product-detail__image">
@@ -78,16 +83,15 @@ export default props => {
                     </Grid>
                 </Grid>
                 :
-                <Progress></Progress>
+                <Progress/>
             }
 
             {(!isLoading && searchResult.length > 0)
                 ?
                 <Typography component="div" style={{backgroundColor: '#fff'}}>
                     <div className={classes.root}>
-                        <h2>Veja outras histórias</h2>
+                        <h2>Mais histórias em quadrinho</h2>
                         <Grid container spacing={3}>
-
                             {searchResult.map(char =>
                                 <Fade in={!isLoading} key={char.id}>
                                     <Grid item xs={12} md={3}>
@@ -95,7 +99,6 @@ export default props => {
                                     </Grid>
                                 </Fade>
                             )}
-
                         </Grid>
                     </div>
                 </Typography>

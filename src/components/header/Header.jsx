@@ -1,23 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import {Link, Redirect, Route, BrowserRouter as Router} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
 import {fade, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
+import useDeleteComicStoryToCart from "../../hooks/useDeleteComicStoryToCart";
+
+import './Header.css';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        backgroundColor: theme.palette.background.paper,
+    },
     grow: {
         flexGrow: 1,
     },
@@ -68,32 +78,23 @@ const useStyles = makeStyles(theme => ({
 
 export default props => {
     const classes = useStyles();
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const [isRedirect, setIsRedirect] = useState(false);
     const [totalComics, setTotalComics] = useState(0)
-    const comics = useSelector(state => state.cart);
+    const comics = useSelector(state => {
+        debugger;
+        return state.cart
+    });
+
+    const { deleteComicToCart } = useDeleteComicStoryToCart();
 
     useEffect(() => {
-            setTotalComics(comics.length);
-    }, [comics]);
-
-    const redirect = () => {
-        if (totalComics > 0 && isRedirect)
-            return (
-                <Router>
-                    <Route>
-                        <Redirect
-                            to="/cart"
-                        />
-                    </Route>
-                </Router>
-            )
-    };
+        console.log("UseEffect")
+        setTotalComics(comics.length);
+    });
 
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
@@ -106,6 +107,19 @@ export default props => {
     const handleMenuClose = () => {
         setAnchorEl(null);
         handleMobileMenuClose();
+    };
+
+    const handleClickListItem = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setAnchorEl(null);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     const handleMobileMenuOpen = event => {
@@ -168,49 +182,80 @@ export default props => {
             </MenuItem>
         </Menu>
     );
-
-  return (
+    return (
         <React.Fragment>
-            {redirect()}
             <div className={classes.grow}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton
-                            edge="start"
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="open drawer"
-                        >
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography className={classes.title} variant="h6" noWrap>
-                            Universo Marvel
-                        </Typography>
-
+                        <Link to='/'>
+                            <Typography className={classes.title} variant="h6" noWrap>
+                                Universo Marvel
+                            </Typography>
+                        </Link>
                         <div className={classes.grow}/>
                         <div className={classes.sectionDesktop}>
-
-                            <Button
-                                onClick={() => setIsRedirect(totalComics > 0 ? true : false)}
-                                aria-label="show 8 new mails"
-                                color="inherit">
-                                <Badge badgeContent={totalComics} color="secondary">
-
-                                    <ShoppingCart/>
-
-                                </Badge>
-                            </Button>
-
                             <IconButton
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
+                                onClick={handleClickListItem}
+                                aria-label="show 8 new mails"
                                 color="inherit"
+                                disabled={totalComics === 0}
                             >
-                                <AccountCircle/>
+                                <Badge badgeContent={totalComics} color="secondary">
+                                    <ShoppingCart/>
+                                </Badge>
                             </IconButton>
+                            <div className={classes.root}>
+                                <Menu
+                                    id="lock-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    { comics.map((ct, index) => (
+                                        <div key={ct.id} className="todo-list">
+                                            <div className="">
+                                                <MenuItem
+                                                    onClick={(event) => handleMenuItemClick(event, index)}
+                                                    className="box-list__link"
+                                                >
+                                                    <Link to={`/product-detail/${ct.id}`}>
+                                                        <div className="box-list">
+                                                            <div className="box-list__image">
+                                                                <img
+                                                                    src={`${ct.thumbnail.path}.${ct.thumbnail.extension}`}
+                                                                    alt={ct.title}
+                                                                    className="box-list__image--img"
+                                                                />
+                                                            </div>
+                                                            <div className="box-list__text">
+                                                                {`${ct.title.substring(0, 20)}...`}
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </MenuItem>
+                                            </div>
+                                            <div className="todo-list__delete">
+                                                <IconButton
+                                                    onClick={() => deleteComicToCart(index)}
+                                                >
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                            </div>
+                                        </div>
+                                    ))}
+                                    <MenuItem
+                                        onClick={(event) => handleMenuItemClick(event)}
+                                    >
+                                        <div className="ButtonMenuList">
+                                            <Link to="/cart">
+                                                Ír para o carrinho
+                                            </Link>
+                                        </div>
+                                    </MenuItem>
+
+                                </Menu>
+                            </div>
                         </div>
                         <div className={classes.sectionMobile}>
                             <IconButton
@@ -225,8 +270,8 @@ export default props => {
                         </div>
                     </Toolbar>
                 </AppBar>
-                {renderMobileMenu}
-                {renderMenu}
+                {/*{renderMobileMenu}*/}
+                {/*{renderMenu}*/}
             </div>
         </React.Fragment>
 

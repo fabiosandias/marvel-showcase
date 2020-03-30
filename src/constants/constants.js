@@ -7,4 +7,10 @@ const API = {
     PRIVATE_KEY: '942eb4f49bece0af20660bdb54c5e6b7063ae7bb',
     PUBLIC_KEY: '88a0ddc419cd8f07b30aba7945afbad6',
 }
-export { API };
+
+const ACTIONS = {
+    ADD_TO_CART: 'ADD_TO_CART',
+    DELETE_TO_CART: 'DELETE_TO_CART',
+    SAVE_SEARCH_RESULT: 'SAVE_SEARCH_RESULT'
+}
+export { API, ACTIONS };

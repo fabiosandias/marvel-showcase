@@ -1,4 +1,5 @@
 import {createStore} from "redux";
+import {ACTIONS as __} from "../constants/constants";
 
 const INITIAL_STATE = {
     cart: [],
@@ -11,26 +12,20 @@ const INITIAL_STATE = {
 
 function reducers(state, {type, payload}) {
     switch (type) {
-        case 'ADD_TO_CART':
+        case __.ADD_TO_CART:
             return {
                 ...state,
                 cart: [...state.cart, payload]
             };
-        case 'SAVE_SEARCH_RESULT':
+        case __.SAVE_SEARCH_RESULT:
             return {
                 ...state,
                 searchResult: payload
-            }
-        case  'SHOW_MODAL_DETAIL':
-            const {isShow, comic} = payload;
-            debugger
-            return {
-                ...state,
-                showModalDetail: {
-                    isShow: {...state.showModalDetail.isShow, isShow},
-                    comic: {...state.showModalDetail.comic, comic}
-                }
-            }
+            };
+        case __.DELETE_TO_CART:
+            let newState = {...state};
+            newState.cart.splice(payload, 1)
+            return newState;
         default:
             return state;
     }

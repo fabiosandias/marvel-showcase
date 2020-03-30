@@ -43,7 +43,7 @@ export default props => {
         <>
             {isLoading
                 ?
-                <Progress></Progress>
+                <Progress />
                 :
                 <Typography component="div" style={{backgroundColor: '#fff'}}>
                     <div className={classes.root}>
