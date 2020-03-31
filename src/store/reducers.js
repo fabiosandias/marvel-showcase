@@ -39,7 +39,6 @@ function reducers(state, {type, payload}) {
                             state.cart[index].quantity = parseInt(payload.value);
                         }
                     }
-
                     return {...comic}
                 })
             };

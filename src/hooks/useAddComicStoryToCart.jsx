@@ -1,67 +1,27 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCartAction } from "../store/actions-reducers";
+import Ultils from '../utils/Ultils'
+import { TOAST_CONFIG } from "../constants/constants";
 
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import Fade from '@material-ui/core/Fade';
-
-
-const useAddComicStoryToCart = (comic) => {
-    const [state, setState] = useState({
-        open: false,
-        Transition: Fade,
-    });
-
-    const handleClick = (Transition) => () => {
-        setState({
-            open: true,
-            Transition,
-        });
-    };
-
-    const handleClose = () => {
-        setState({
-            ...state,
-            open: false,
-        });
-    };
+const useAddComicStoryToCart = () => {
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
+    const { toast } = Ultils();
 
     const checkOnCart = comic => {
+        debugger
         if (cart.length === 0) {
             dispatch(addToCartAction(comic));
-
-            return (
-                <Snackbar
-                    open={state.open}
-                    onClose={handleClose}
-                    TransitionComponent={state.Transition}
-                    message="I love snacks"
-                />
-            )
+            toast(TOAST_CONFIG.SUCCESS);
         } else {
             const historyAlreadyCart = cart.filter(ct => ct.id === comic.id)
             if (historyAlreadyCart.length === 0) {
                 dispatch(addToCartAction(comic));
-                return (
-                    <Snackbar
-                        open={state.open}
-                        onClose={handleClose}
-                        TransitionComponent={state.Transition}
-                        message="I love snacks"
-                    />
-                )
+                toast(TOAST_CONFIG.SUCCESS)
+                return false;
             }
-            return (
-                <Snackbar
-                    open={state.open}
-                    onClose={handleClose}
-                    TransitionComponent={state.Transition}
-                    message="I love snacks"
-                />
-            )
+            toast(TOAST_CONFIG.WARNING)
         }
     };
     return { checkOnCart };

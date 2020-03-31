@@ -1,24 +1,27 @@
 import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
+//Material-UI
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import useDeleteComicStoryToCart from "../../hooks/useDeleteComicStoryToCart";
-import {addQuantityAction} from "../../store/actions-reducers";
 
-import {useDispatch, useSelector} from "react-redux";
-import {Link} from "react-router-dom";
-import formatMoney from "../../utils/Ultils";
+import {addQuantityAction} from "../../store/actions-reducers";
+import useDeleteComicStoryToCart from "../../hooks/useDeleteComicStoryToCart";
+import Utils from "../../utils/Ultils";
+
 import './Cart.css';
 
 export default props => {
     const {deleteComicToCart} = useDeleteComicStoryToCart();
     const comics = useSelector(state => state.cart);
     const dispatch = useDispatch();
+    const {formatMoney, sumValuesCart} = Utils();
 
     const addQuantity = (event, id) => {
-        dispatch(addQuantityAction(id, event.target.value, ))
+        dispatch(addQuantityAction(id, event.target.value,))
     }
 
     return (
@@ -51,7 +54,7 @@ export default props => {
                     <div className="cart__box-quantity">
                         <TextField
                             id="outlined-number"
-                            label="Number"
+                            label="Quantidade"
                             type="number"
                             InputLabelProps={{
                                 shrink: true,
@@ -60,7 +63,6 @@ export default props => {
                             inputProps={{min: "0", max: "10", step: "1"}}
                             variant="outlined"
                             onChange={(event) => addQuantity(event, comic.id)}
-
                             size="small"
                         />
                     </div>
@@ -78,6 +80,16 @@ export default props => {
                     </div>
                 </div>
             )}
+
+            { comics.length > 0
+                ?
+                <div className="cart__total">
+                    <p className="cart__total--text">Total a pagar</p>
+                    <h2 className="cart__total--value">{formatMoney(sumValuesCart(comics))}</h2>
+                    <button type="button" className="cart__total--button">Finalizar compra</button>
+                </div>
+                : ''
+            }
 
         </>
     );

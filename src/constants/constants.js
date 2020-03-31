@@ -14,4 +14,19 @@ const ACTIONS = {
     SAVE_SEARCH_RESULT: 'SAVE_SEARCH_RESULT',
     ADD_QUANTITY: 'ADD_QUANTITY'
 }
-export { API, ACTIONS };
+
+const TOAST_CONFIG = {
+    SUCCESS: {
+        TYPE: 'success',
+        MESSAGE: 'Sua revista foi adicionado ao carrinho!'
+    },
+    WARNING: {
+        TYPE: 'warning',
+        MESSAGE: 'Essa revista já foi adicionada ao carrinho!'
+    },
+    DELETE: {
+        TYPE: 'success',
+        MESSAGE: 'A revista foi removida com sucesso!'
+    }
+}
+export { API, ACTIONS, TOAST_CONFIG };

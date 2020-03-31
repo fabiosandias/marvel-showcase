@@ -36,6 +36,9 @@
 .cart__box-price {
     flex: 1.5;
     padding: 0 15px;
+    color: #4caf50;
+    font-size: 18px;
+    font-weight: bold;
 }
 .cart__box-delete {
     flex: 0.5;
@@ -46,4 +49,45 @@
 .cart__box-title {
     display: flex;
     align-items: center;
+}
+
+.cart__total {
+    margin-bottom: 40px;
+    width: 100%;
+    text-align: right;
+    padding: 10px;
+}
+.cart__total--value {
+    font-size: 35px;
+    margin: 0;
+    color: #4caf50;
+}
+.cart__total--text {
+    font-size: 20px;
+    margin: 0;
+}
+
+.cart__total--button {
+    background: #ec2323;
+    color: #FFFFFF;
+    width: 200px;
+    padding: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+    .cart {
+        flex-wrap: wrap;
+    }
+    .cart__box-delete,
+    .cart__box-price,
+    .cart__box-quantity,
+    .cart__box-title {
+        width: 100%;
+    }
 }

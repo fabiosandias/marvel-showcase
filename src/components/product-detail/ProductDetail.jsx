@@ -1,18 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
+
+//Material-UI
+import {makeStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid";
 import Button from '@material-ui/core/Button';
+import Fade from "@material-ui/core/Fade";
+import Typography from "@material-ui/core/Typography";
+
 import {getAllComicsById, getAllComics} from '../../services/ApiService';
 import Progress from "../progress/Progress";
 import useAddComicStoryToCart from '../../hooks/useAddComicStoryToCart'
-
-import {useSelector} from "react-redux";
+import Card from "../card/Card";
+import Ultils from "../../utils/Ultils";
 
 import './Product-detail.css';
-import Fade from "@material-ui/core/Fade";
-import Card from "../card/Card";
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,10 +38,10 @@ export default props => {
     const {comicId} = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [comic, setComic] = useState([]);
-    const [title, setTitle] = useState('Loja Virtual da Marvel');
 
     const searchResult = useSelector(state => state.searchResult)
-    const {checkOnCart} = useAddComicStoryToCart();
+    const { checkOnCart } = useAddComicStoryToCart();
+    const { formatMoney } = Ultils();
 
     useEffect(() => {
         setIsLoading(true);
@@ -47,8 +50,6 @@ export default props => {
             .then(response => {
                 setIsLoading(false);
                 setComic(response.data.results);
-                setTitle(response.data.results.title);
-
             });
 
     }, [comicId]);
@@ -69,6 +70,7 @@ export default props => {
                                 <div className="product-detail__description">
                                     <h2>{c.title}</h2>
                                     <p dangerouslySetInnerHTML={{__html: c.description}}></p>
+                                    <h2>{formatMoney(c.prices[0].price)}</h2>
                                     <Button
                                         variant="contained"
                                         size="medium"

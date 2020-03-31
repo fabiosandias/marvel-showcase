@@ -86,10 +86,7 @@ export default props => {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const [totalComics, setTotalComics] = useState(0)
 
-    const comics = useSelector(state => {
-        debugger
-        return state.cart
-    });
+    const comics = useSelector(state => state.cart);
 
     const { deleteComicToCart } = useDeleteComicStoryToCart();
 
