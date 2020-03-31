@@ -92,9 +92,12 @@ export default props => {
     const { deleteComicToCart } = useDeleteComicStoryToCart();
 
     useEffect(() => {
-        console.log("UseEffect")
         setTotalComics(comics.length);
-    });
+
+        if (totalComics === 0)
+            handleClose()
+
+    }, [comics, totalComics]);
 
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);

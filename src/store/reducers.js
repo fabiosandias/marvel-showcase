@@ -23,9 +23,10 @@ function reducers(state, {type, payload}) {
                 searchResult: payload
             };
         case __.DELETE_TO_CART:
-            let newState = {...state};
-            newState.cart.splice(payload, 1)
-            return newState;
+            return {
+                ...state,
+                cart: state.cart.filter((comic, index) => index != payload)
+            };
         default:
             return state;
     }

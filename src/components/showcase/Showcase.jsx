@@ -33,9 +33,9 @@ export default props => {
     useEffect(() => {
         setLoading(true)
         getAllComics().then(response => {
-            setComics(response.data.data.results);
+            setComics(response.data.data.results.filter(res => res.images.length > 0));
             setLoading(false);
-            dispatch(_action.saveSearchResult(response.data.data.results))
+            dispatch(_action.saveSearchResult(response.data.data.results.filter(res => res.images.length > 0)))
         });
     }, []);
 
