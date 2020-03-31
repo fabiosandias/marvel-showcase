@@ -2,3 +2,9 @@
     color: #282c34;
     text-decoration: none;
 }
+.card__price {
+    font-size: 25px;
+    font-weight: bold;
+    color: #ec2323;
+    margin: 0;
+}

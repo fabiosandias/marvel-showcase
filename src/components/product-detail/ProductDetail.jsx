@@ -68,6 +68,7 @@ export default props => {
                                 </div>
                                 <div className="product-detail__description">
                                     <h2>{c.title}</h2>
+                                    <p dangerouslySetInnerHTML={{__html: c.description}}></p>
                                     <Button
                                         variant="contained"
                                         size="medium"

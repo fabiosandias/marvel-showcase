@@ -39,6 +39,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
+        textDecoration: 'none'
     },
     searchIcon: {
         padding: theme.spacing(0, 2),
@@ -84,10 +85,7 @@ export default props => {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const [totalComics, setTotalComics] = useState(0)
-    const comics = useSelector(state => {
-        debugger;
-        return state.cart
-    });
+    const comics = useSelector(state => state.cart);
 
     const { deleteComicToCart } = useDeleteComicStoryToCart();
 
@@ -189,10 +187,10 @@ export default props => {
         <React.Fragment>
             <div className={classes.grow}>
                 <AppBar position="static">
-                    <Toolbar>
+                    <Toolbar className="logo">
                         <Link to='/'>
                             <Typography className={classes.title} variant="h6" noWrap>
-                                Universo Marvel
+                               <span>Universo Marvel</span>
                             </Typography>
                         </Link>
                         <div className={classes.grow}/>
@@ -256,7 +254,6 @@ export default props => {
                                             </Link>
                                         </div>
                                     </MenuItem>
-
                                 </Menu>
                             </div>
                         </div>

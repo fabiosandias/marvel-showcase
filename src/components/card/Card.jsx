@@ -40,7 +40,9 @@ export default props => {
                             <Typography gutterBottom variant="h6" component="h4">
                                 {`${props.comic.title.substring(0, 14)}...`}
                             </Typography>
+                            <p className="card__price">$ {props.comic.prices[0].price}</p>
                         </CardContent>
+
                     </CardActionArea>
                 </Link>
                 <CardActions>

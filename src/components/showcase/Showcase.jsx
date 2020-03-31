@@ -14,8 +14,7 @@ import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
-    },
+        flexGrow: 1,    },
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
@@ -30,14 +29,18 @@ export default props => {
 
     const dispatch = useDispatch();
 
+    // const { includePrice } = useIncludePriceValue();
+
     useEffect(() => {
         setLoading(true)
         getAllComics().then(response => {
-            setComics(response.data.data.results.filter(res => res.images.length > 0));
+            const data = response.data.data.results.filter(res => res.images.length > 0);
+            setComics(data);
             setLoading(false);
-            dispatch(_action.saveSearchResult(response.data.data.results.filter(res => res.images.length > 0)))
+            dispatch(_action.saveSearchResult(data));
         });
     }, []);
+
 
     return (
         <>
