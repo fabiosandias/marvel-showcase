@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import useAddComicStoryToCart from '../../hooks/useAddComicStoryToCart';
+import formatMoney from "../../utils/Ultils";
 import './card.css';
 
 const useStyles = makeStyles({
@@ -40,7 +41,7 @@ export default props => {
                             <Typography gutterBottom variant="h6" component="h4">
                                 {`${props.comic.title.substring(0, 14)}...`}
                             </Typography>
-                            <p className="card__price">$ {props.comic.prices[0].price}</p>
+                            <p className="card__price"> {formatMoney(props.comic.prices[0].price)}</p>
                         </CardContent>
 
                     </CardActionArea>

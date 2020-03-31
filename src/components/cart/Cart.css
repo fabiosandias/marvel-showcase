@@ -5,7 +5,9 @@
     margin-bottom: 20px;
     border: 1px solid #cdcdcd;
 }
-
+.empty_cart {
+    text-align: center;
+}
 .cart__image {
     width: 100%;
     height: auto;

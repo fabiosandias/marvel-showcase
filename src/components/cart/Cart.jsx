@@ -1,21 +1,41 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
-import './Cart.css';
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from '@material-ui/core/TextField';
-
+import Button from '@material-ui/core/Button';
 import useDeleteComicStoryToCart from "../../hooks/useDeleteComicStoryToCart";
-import {useSelector} from "react-redux";
+import {addQuantityAction} from "../../store/actions-reducers";
+
+import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
-import Card from "@material-ui/core/Card";
+import formatMoney from "../../utils/Ultils";
+import './Cart.css';
 
 export default props => {
-const { deleteComicToCart } = useDeleteComicStoryToCart();
-const comics = useSelector(state => state.cart);
+    const {deleteComicToCart} = useDeleteComicStoryToCart();
+    const comics = useSelector(state => state.cart);
+    const dispatch = useDispatch();
+
+    const addQuantity = (event, id) => {
+        dispatch(addQuantityAction(id, event.target.value, ))
+    }
 
     return (
         <>
+            {(comics.length === 0) ?
+                <div className="empty_cart">
+                    <h2>Seu carrinho de compra está vazio</h2>
+                    <Button variant="contained">
+                        <Link to="/">Cliqui para ir para vitrine da loja</Link>
+                    </Button>
+                </div>
+                :
+                <div>
+                    <h2>Carrinho de compra</h2>
+                </div>
+            }
+
             {comics.map((comic, index) =>
                 <div className="cart" key={comic.id}>
                     <div className="cart__box-image">
@@ -29,7 +49,6 @@ const comics = useSelector(state => state.cart);
                         <Link to={`/product-detail/${comic.id}`} className="card__link"><h3>{comic.title}</h3></Link>
                     </div>
                     <div className="cart__box-quantity">
-                        {/*<span><input className="cart__box-quantity--input" type="number" value={0}/></span>*/}
                         <TextField
                             id="outlined-number"
                             label="Number"
@@ -37,23 +56,29 @@ const comics = useSelector(state => state.cart);
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            value={!comic.quantity ? comic.quantity = 1 : comic.quantity}
+                            inputProps={{min: "0", max: "10", step: "1"}}
                             variant="outlined"
+                            onChange={(event) => addQuantity(event, comic.id)}
 
                             size="small"
                         />
                     </div>
                     <div className="cart__box-price">
-                        <span>R$ {comic.prices[0].price}</span>
+                        <span>
+                            {formatMoney(comic.quantity * comic.prices[0].price)}
+                          </span>
                     </div>
                     <div className="cart__box-delete">
                         <IconButton
-                            onClick={() => deleteComicToCart(1)}
+                            onClick={() => deleteComicToCart(index)}
                         >
                             <DeleteIcon/>
                         </IconButton>
                     </div>
                 </div>
             )}
+
         </>
     );
 }

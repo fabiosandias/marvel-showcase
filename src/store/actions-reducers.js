@@ -15,4 +15,12 @@ const deleteToCartAction = data => ({
     payload: data
 });
 
-export {addToCartAction, saveSearchResult, deleteToCartAction};
+const addQuantityAction = (id, value) => ({
+    type: __.ADD_QUANTITY,
+    payload: {
+        value: parseInt(value),
+        id: id
+    }
+})
+
+export {addToCartAction, saveSearchResult, deleteToCartAction, addQuantityAction};

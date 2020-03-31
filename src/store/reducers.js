@@ -27,6 +27,22 @@ function reducers(state, {type, payload}) {
                 ...state,
                 cart: state.cart.filter((comic, index) => index != payload)
             };
+        case __.ADD_QUANTITY:
+            return {
+                ...state,
+                cart: state.cart.map((comic, index) => {
+                    if (comic.id === payload.id) {
+                        if (!state.cart[index].quantity) {
+                            state.cart[index]['quantity'] = 0;
+                            state.cart[index].quantity = parseInt(payload.value);
+                        } else {
+                            state.cart[index].quantity = parseInt(payload.value);
+                        }
+                    }
+
+                    return {...comic}
+                })
+            };
         default:
             return state;
     }
