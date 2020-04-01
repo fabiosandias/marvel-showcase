@@ -9,7 +9,7 @@ Além de você poder visualizar as revista você pode adicionar ao carrinho de c
 Para rodar esse projeto é muito simples.
 
 1 - Clone o projeto pra dentro da pasta de seus projeto rodando essa comando `git clone git@github.com:fabiosandias/marvel-showcase.git` <br />
-2 - Entre dentro da pasta do projeto: `cd marvel-showcase` <br />
+2 - Entre na pasta do projeto: `cd marvel-showcase` <br />
 3 - Execute `npm i` ou `npm install` <br />
 4 - Execute o comando `nom start` para o projeto ser executado.
 
