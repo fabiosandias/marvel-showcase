@@ -2,7 +2,7 @@
 Essa é uma simples descrição desse pequeno projeto. Nessa aplicação você irá visualizar uma pequena vitrine
 com as revistinha de quadrinho da Marvel.
 
-Você pode visualizar a revista que está sendo exibida e tambem pode adicionar ao carrinho de compra.
+Além de você poder visualizar as revista você pode adicionar ao carrinho de compra e ir até o checkout.
 
 ### Segue as instruções para rodar o projeto
 
