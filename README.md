@@ -1,3 +1,18 @@
+### Olá dev..., tudo bem?
+Essa é uma simples descrição desse pequeno projeto. Nessa aplicação você irá visualizar uma pequena vitrine
+com as revistinha de quadrinho da Marvel.
+
+Você pode visualizar a revista que está sendo exibida e tambem pode adicionar ao carrinho de compra.
+
+### Segue as instruções para rodar o projeto
+
+Para rodar esse projeto é muito simples.
+
+1 - Clone o projeto pra dentro da pasta de seus projeto rodando essa comando `git clone git@github.com:fabiosandias/marvel-showcase.git` <br />
+2 - Entre dentro da pasta do projeto: `cd marvel-showcase` <br />
+3 - Execute `npm i` ou `npm install` <br />
+4 - Execute o comando `nom start` para o projeto ser executado.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
