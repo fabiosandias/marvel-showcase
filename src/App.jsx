@@ -7,7 +7,6 @@ import RouterComponent from './components/routers/RouterComponent';
 import Typography from "@material-ui/core/Typography";
 import {BrowserRouter} from "react-router-dom";
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import {Toast} from "./components/toast/Toast";
 
 const App = () => {
     return (
