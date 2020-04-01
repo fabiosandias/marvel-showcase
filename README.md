@@ -11,7 +11,7 @@ Para rodar esse projeto é muito simples.
 1 - Clone o projeto pra dentro da pasta de seus projeto rodando essa comando `git clone git@github.com:fabiosandias/marvel-showcase.git` <br />
 2 - Entre na pasta do projeto: `cd marvel-showcase` <br />
 3 - Execute `npm i` ou `npm install` <br />
-4 - Execute o comando `nom start` para o projeto ser executado.
+4 - Execute o comando `npm start` para o projeto ser executado e você poder visualiza-lo no navegador.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
